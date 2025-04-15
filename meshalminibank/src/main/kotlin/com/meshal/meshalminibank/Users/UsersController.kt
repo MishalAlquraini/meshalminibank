@@ -11,5 +11,5 @@ class UsersController(
 ){
 
     @PostMapping("/users/v1/register")
-    fun users(@RequestBody request: userRequest) = usersServices.requestUsers(request)
+    fun users(@RequestBody request: UserRequest) = usersServices.requestUsers(request)
 }

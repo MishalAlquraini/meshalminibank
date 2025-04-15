@@ -1,10 +1,15 @@
 package com.meshal.meshalminibank.Accounts
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
+import java.io.InvalidObjectException
 import java.math.BigDecimal
 
 @RestController
@@ -12,14 +17,18 @@ class AccountsController(
     val accountsRepo: AccountsRepository
 ){
     @PostMapping("/accounts/v1/accounts")
-    fun createAccount(@RequestBody request: accRequest): AccountsEntity{
+    fun createAccount(@RequestBody request: AccRequest): ResponseEntity<AccountsEntity> {
+        if (request.balance < BigDecimal(500)) {
+           // try{request.balance} catch{ErrorDto}
+            throw InvalidObjectException("Balance less then 500 not allowed")
+        }
         val newAcc = AccountsEntity(
             userId = request.userId,
+            name = request.name,
             balance = request.balance,
-            isActive = request.isActive,
-            accountNumber = request.accountNumber
+            isActive = true
         )
-        return accountsRepo.save(newAcc)
+        return ResponseEntity.ok(accountsRepo.save(newAcc))
     }
     @PostMapping("/accounts/v1/accounts/{accountNumber}/close")
     fun closeAccount(@PathVariable accountNumber: String){
@@ -32,9 +41,13 @@ class AccountsController(
     fun listAllAccounts(): List<AccountsEntity> = accountsRepo.findAll()
 }
 
-data class accRequest(
+data class AccRequest(
     val userId: Long,
+    val name: String,
     val balance: BigDecimal,
-    val isActive: Boolean,
-    val accountNumber: String
 )
+
+data class ErrorDto(
+val message:String
+)
+

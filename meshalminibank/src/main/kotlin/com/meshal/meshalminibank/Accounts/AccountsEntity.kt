@@ -14,9 +14,10 @@ data class AccountsEntity(
     val id: Long? = null,
     // foreign key
     val userId: Long,
+    val name: String,
     val balance: BigDecimal,
     val isActive: Boolean,
-    val accountNumber: String
+    val accountNumber: String = UUID.randomUUID().toString()
 ){
-    constructor() : this(null, 0, BigDecimal.ZERO,true,"")
+    constructor() : this(null, 0, "",BigDecimal.ZERO,true,"")
 }
