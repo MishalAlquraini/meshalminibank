@@ -17,18 +17,18 @@ class AccountsController(
     val accountsRepo: AccountsRepository
 ){
     @PostMapping("/accounts/v1/accounts")
-    fun createAccount(@RequestBody request: AccRequest): ResponseEntity<AccountsEntity> {
-        if (request.balance < BigDecimal(500)) {
-           // try{request.balance} catch{ErrorDto}
-            throw InvalidObjectException("Balance less then 500 not allowed")
+    fun createAccount(@RequestBody request: AccRequest): Any {
+
+        if (request.balance < BigDecimal(500)){
+        return ResponseEntity.badRequest().body("Balance less then 500 not allowed")
         }
-        val newAcc = AccountsEntity(
+
+        return AccountsEntity(
             userId = request.userId,
             name = request.name,
             balance = request.balance,
             isActive = true
         )
-        return ResponseEntity.ok(accountsRepo.save(newAcc))
     }
     @PostMapping("/accounts/v1/accounts/{accountNumber}/close")
     fun closeAccount(@PathVariable accountNumber: String){

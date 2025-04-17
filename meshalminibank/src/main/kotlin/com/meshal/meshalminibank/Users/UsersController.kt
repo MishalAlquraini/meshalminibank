@@ -1,6 +1,7 @@
 package com.meshal.meshalminibank.Users
 
 
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -11,5 +12,13 @@ class UsersController(
 ){
 
     @PostMapping("/users/v1/register")
-    fun users(@RequestBody request: UserRequest) = usersServices.requestUsers(request)
+    fun users(@RequestBody request: UserRequest): Any {
+        try {
+           return usersServices.requestUsers(request)
+        }
+        catch(e: IllegalArgumentException) {
+            return ResponseEntity.badRequest().body(mapOf("error" to e.message))
+        }
+
+    }
 }
