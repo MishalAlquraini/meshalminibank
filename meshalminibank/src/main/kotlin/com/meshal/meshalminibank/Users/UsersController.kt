@@ -11,7 +11,7 @@ class UsersController(
     val usersServices: UsersServices
 ){
 
-    @PostMapping("/users/v1/register")
+    @PostMapping("/auth/register")
     fun users(@RequestBody request: UserRequest): Any {
         try {
            return usersServices.requestUsers(request)
