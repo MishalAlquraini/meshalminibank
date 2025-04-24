@@ -41,7 +41,10 @@ class SecurityConf (
 //                it.defaultSuccessUrl("/Public/menu", true)}
 //            .userDetailsService(userDetailsService)
 //        return http.build()
-            it.requestMatchers("/auth/**").permitAll()
+            it
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/register").permitAll()
+
                 .anyRequest().authenticated()
         }
             .sessionManagement {

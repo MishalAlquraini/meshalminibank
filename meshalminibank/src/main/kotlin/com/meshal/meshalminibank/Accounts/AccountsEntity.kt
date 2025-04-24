@@ -13,11 +13,11 @@ data class AccountsEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
     // foreign key
-    val userId: Long,
-    val name: String,
-    val balance: BigDecimal,
-    val isActive: Boolean,
-    val accountNumber: String = UUID.randomUUID().toString()
+    var userId: Long,
+    var name: String,
+    var balance: BigDecimal,
+    var isActive: Boolean,
+    var accountNumber: String = UUID.randomUUID().toString()
 ){
     constructor() : this(null, 0, "",BigDecimal.ZERO,true,"")
 }
