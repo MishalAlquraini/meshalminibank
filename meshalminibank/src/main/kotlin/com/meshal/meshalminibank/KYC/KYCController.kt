@@ -3,6 +3,7 @@ package com.meshal.meshalminibank.KYC
 import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.util.*
 
 @RestController
 class KYCController(
@@ -23,20 +24,27 @@ class KYCController(
                 userId = request.userId,
                 dateOfBirth = request.dateOfBirth,
                 nationality = request.nationality,
-                salary = request.salary
+                salary = request.salary,
             )
         )
     }
 
     @GetMapping("/users/v1/kyc/{userId}")
-    fun findKycByUserId(@PathVariable userId: Long): List<KycEntity>{
-        return kycRepo.findAll().filter { it.userId == userId }
+    fun findKycByUserId(@PathVariable userId: Long): KycEntity{
+       return kycRepo.findById(userId).get()
     }
 }
 
 data class KYCRequest(
     val userId: Long,
-    val dateOfBirth: LocalDate,
+    val dateOfBirth: Date,
+    val nationality: String,
+    val salary: BigDecimal
+)
+
+data class Kyc(
+    val userId: Long,
+    val name: String,
     val nationality: String,
     val salary: BigDecimal
 )

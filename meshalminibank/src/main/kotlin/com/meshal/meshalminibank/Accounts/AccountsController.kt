@@ -32,7 +32,8 @@ class AccountsController(
             userId = user?.id!!,
             name = request.name,
             balance = request.balance,
-            isActive = true
+            isActive = true,
+           // user = request.
         )
     }
     @PostMapping("/accounts/v1/accounts/{accountNumber}/close")

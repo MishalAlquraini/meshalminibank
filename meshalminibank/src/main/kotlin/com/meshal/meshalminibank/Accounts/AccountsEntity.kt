@@ -17,7 +17,8 @@ data class AccountsEntity(
     var name: String,
     var balance: BigDecimal,
     var isActive: Boolean,
-    var accountNumber: String = UUID.randomUUID().toString()
+    var accountNumber: String = UUID.randomUUID().toString(),
+    //var user :UsersEntity
 ){
     constructor() : this(null, 0, "",BigDecimal.ZERO,true,"")
 }
